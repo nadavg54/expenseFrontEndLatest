@@ -16,6 +16,7 @@ routerApp.controller('expensesListCtrl',function ($http) {
     });
 });
 
+
 routerApp.controller('mainPageNavCtrl',function ($scope,$uibModal,$http) {
 
     $scope.check = "check str";
@@ -78,7 +79,7 @@ routerApp.config(function($stateProvider, $urlRouterProvider) {
 
         // ABOUT PAGE AND MULTIPLE NAMED VIEWS =================================
         .state('about', {
-            // we'll get to this in a bit       
+            // we'll get to this in a bit
         });
 
 });
