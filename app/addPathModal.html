@@ -1,0 +1,27 @@
+<div class="modal-header">
+    <h3 class="modal-title">Hello</h3>
+</div>
+
+<div class="modal-body">
+    <form>
+        <div class="form-group">
+            <label for="nameOfExpense" >Name</label>
+            <input type="text" ng-model="addExpenseForm.name" class="form-control" id="nameOfExpense" aria-describedby="emailHelp">
+        </div>
+        <div class="form-group">
+            <label for="typeOfExpense">Type</label>
+            <input type="text" class="form-control" ng-model="addExpenseForm.type" id="typeOfExpense" aria-describedby="emailHelp">
+        </div>
+        <div class="form-group">
+            <label for="amount">Amount</label>
+            <input type="text" class="form-control" id="amount"  ng-model="addExpenseForm.amount"  aria-describedby="emailHelp">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
+    <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+</div>

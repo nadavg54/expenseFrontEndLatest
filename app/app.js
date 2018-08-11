@@ -1,25 +1,61 @@
 var routerApp = angular.module('routerApp', ['ui.router','ui.grid','ui.bootstrap']);
 
 
-routerApp.controller('expensesListCtrl',function ($http) {
+routerApp.controller('expensesListCtrl',function ($http,gridService) {
     var vm = this;
     vm.recievedData = false;
-    vm.gridOptions = {};
-    vm.gridOptions.columnDefs = [{field:"name"},{field:"amount"},{field:"type"},{field:"time",type:'date'}];
-
+    vm.searchInput;
+    vm.gridOptions = gridService.getOption();
+    //vm.gridOptions.columnDefs = [{field:"name"},{field:"amount"},{field:"type"},{field:"time",type:'date'}];
 
     $http.get("http://localhost:8080/expenses").then(function(response){
-        vm.gridOptions.data = response.data.expenses;
-        vm.recievedData = true;
+
+      gridService.setData(response.data.expenses);
+      gridService.setUnfilteredData(response.data.expenses);
+      vm.recievedData = true;
     }).catch(function (error) {
         console.log(error);
     });
 });
 
+routerApp.factory('gridService',function () {
 
-routerApp.controller('mainPageNavCtrl',function ($scope,$uibModal,$http) {
 
+  var gridServiceInstance = {};
+  gridServiceInstance.gridOptions = {};
+  gridServiceInstance.gridOptions.columnDefs = [{field:"name"},{field:"amount"},{field:"type"},{field:"time",type:'date'}];
+  gridServiceInstance.unfilteredData;
+
+  gridServiceInstance.getData = function () {
+    return gridServiceInstance.gridOptions.data;
+  }
+
+  gridServiceInstance.setData = function (data) {
+    gridServiceInstance.gridOptions.data = data;
+  }
+
+  gridServiceInstance.getOption = function(){
+    return gridServiceInstance.gridOptions;
+  }
+
+  gridServiceInstance.setUnfilteredData = function (data) {
+    gridServiceInstance.unfilteredData = data;
+  }
+
+  gridServiceInstance.getUnfilteredData = function(){
+    return gridServiceInstance.unfilteredData;
+  }
+
+  return gridServiceInstance;
+
+})
+
+routerApp.controller('mainPageNavCtrl',function ($scope,$uibModal,$http,gridService) {
+
+    var vm = this;
     $scope.check = "check str";
+
+
     $scope.addPath = function(){
         console.log("add path");
         $uibModal.open({
@@ -27,9 +63,6 @@ routerApp.controller('mainPageNavCtrl',function ($scope,$uibModal,$http) {
             controller: function ($scope, $uibModalInstance) {
 
                 $scope.addExpenseForm = {};
-
-
-
 
                 $scope.ok = function () {
                     $http.post("http://localhost:8080/expenses",$scope.addExpenseForm).then(function(response){
@@ -44,26 +77,26 @@ routerApp.controller('mainPageNavCtrl',function ($scope,$uibModal,$http) {
             }
         })
     }
+    $scope.searchText = function () {
+      console.log("inside search text");
+
+      if($scope.searchInputText == null || $scope.searchInputText.length == 0)
+      {
+        gridService.setData(gridService.getUnfilteredData());
+        return;
+      }
+
+      var filteredData = gridService.getUnfilteredData().filter(function (element) {
+        if ( (element.name.indexOf($scope.searchInputText) != -1) || element.type.indexOf($scope.searchInputText) != -1) {
+          return true;
+        }
+        return false;
+      });
+      gridService.setData(filteredData);
+    }
 
 })
 
-/*
-*  $scope.openModal = function () {
-    $uibModal.open({
-      templateUrl: 'modal.html',
-      controller: function ($scope, $uibModalInstance) {
-        $scope.ok = function () {
-          $uibModalInstance.close();
-        };
-
-        $scope.cancel = function () {
-          $uibModalInstance.dismiss('cancel');
-        };
-      }
-    })
-  };
-});
-* */
 
 routerApp.config(function($stateProvider, $urlRouterProvider) {
 
