@@ -10,11 +10,27 @@
         </div>
         <div class="form-group">
             <label for="typeOfExpense">Type</label>
-            <input type="text" class="form-control" ng-model="addExpenseForm.type" id="typeOfExpense" aria-describedby="emailHelp">
+            <select id="typeOfExpense" ng-model="addExpenseForm.type" class="form-control">
+              <option>Restaurant</option>
+              <option>Medical</option>
+              <option>Groceries</option>
+              <option>House Supplies</option>
+              <option>Outing</option>
+              <option>Leisure</option>
+              <option>Transportation</option>
+              <option>Bills</option>
+            </select>
         </div>
         <div class="form-group">
             <label for="amount">Amount</label>
             <input type="text" class="form-control" id="amount"  ng-model="addExpenseForm.amount"  aria-describedby="emailHelp">
+        </div>
+        <div class="form-group">
+          <label for="amount">User</label>
+          <select ng-model="addExpenseForm.user" class="form-control">
+            <option>Nadav</option>
+            <option>Jesi</option>
+          </select>
         </div>
 
         <button type="submit" class="btn btn-primary">Submit</button>

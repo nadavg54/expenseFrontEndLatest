@@ -23,7 +23,7 @@ routerApp.factory('gridService',[function () {
 
   var gridServiceInstance = {};
   gridServiceInstance.gridOptions = {};
-  gridServiceInstance.gridOptions.columnDefs = [{field:"name"},{field:"amount"},{field:"type"},{field:"time",type:'date'}];
+  gridServiceInstance.gridOptions.columnDefs = [{field:"user"},{field:"name"},{field:"amount"},{field:"type"},{field:"time",type:'date'}];
   gridServiceInstance.unfilteredData;
 
   gridServiceInstance.getData = function () {
