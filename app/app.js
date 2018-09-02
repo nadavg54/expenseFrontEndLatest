@@ -8,7 +8,7 @@ routerApp.controller('expensesListCtrl',["$http", "gridService", function ($http
   vm.gridOptions = gridService.getOption();
   //vm.gridOptions.columnDefs = [{field:"name"},{field:"amount"},{field:"type"},{field:"time",type:'date'}];
 
-  $http.get("http://localhost:8080/expenses").then(function(response){
+  $http.get("http://35.204.68.245:8080/expenses").then(function(response){
 
     gridService.setData(response.data.expenses);
     gridService.setUnfilteredData(response.data.expenses);
@@ -23,7 +23,7 @@ routerApp.factory('gridService',[function () {
 
   var gridServiceInstance = {};
   gridServiceInstance.gridOptions = {};
-  gridServiceInstance.gridOptions.columnDefs = [{field:"user"},{field:"name"},{field:"amount"},{field:"type"},{field:"time",type:'date'}];
+  gridServiceInstance.gridOptions.columnDefs = [{field:"user"},{field:"name"},{field:"amount"},{field:"type"},{field:"time",cellFilter: 'date:\'yyyy-MM-dd\''}];
   gridServiceInstance.unfilteredData;
 
   gridServiceInstance.getData = function () {
@@ -65,7 +65,7 @@ routerApp.controller('mainPageNavCtrl',["$scope", "$uibModal", "$http", "gridSer
         $scope.addExpenseForm = {};
 
         $scope.ok = function () {
-          $http.post("http://localhost:8080/expenses",$scope.addExpenseForm).then(function(response){
+          $http.post("http://35.204.68.245:8080/expenses",$scope.addExpenseForm).then(function(response){
             console.log(response);
           })
           $uibModalInstance.close();
